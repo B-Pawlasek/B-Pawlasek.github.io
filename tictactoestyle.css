@@ -1,0 +1,290 @@
+*, *::after, *::before {
+    box-sizing: border-box;
+}
+
+:root{
+    --cell-size: 150px;
+    --mark-size: calc(var(--cell-size, 135px) * .9);
+}
+
+body {
+    margin: 0;
+}
+
+
+/* Plansza do gry */
+
+.board {
+    width: 100%;
+    height: 100%;
+    padding: 5em;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    justify-items: center;
+    align-items: center;
+    grid-template-columns: repeat(3, auto);
+}
+
+.board.isHidden {
+    display: none;
+}
+
+
+/* Formatowanie pojedyncznej komórki */
+
+.cell {
+    width: var(--cell-size, 150px);
+    height: var(--cell-size, 150px);
+    background-color: white;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.cell.x, 
+.cell.circle {
+    cursor: not-allowed;
+}
+
+/* Ustawianie bocznych ramek */
+
+.cell:first-child,
+.cell:nth-child(2),
+.cell:nth-child(3) {
+    border-top: none;
+}
+
+.cell:last-child,
+.cell:nth-child(8),
+.cell:nth-child(7) {
+    border-bottom: none;
+}
+
+.cell:nth-child(3n+1) {
+    border-left: none;
+}
+
+.cell:nth-child(3n+3) {
+    border-right: none;
+}
+
+/* Tworzenie X */
+
+.cell.x::before,
+.cell.x::after,
+.board.x .cell:not(.x):not(.circle):hover::before,
+.board.x .cell:not(.x):not(.circle):hover::after {
+    position: absolute;
+    content: '';
+    width: calc(var(--mark-size, 135px) * .15);
+    height: var(--mark-size, 135px);
+
+}
+
+.cell.x::before,
+.board.x .cell:not(.x):not(.circle):hover::before {
+    transform: rotate(45deg)
+}
+
+.cell.x::after,
+.board.x .cell:not(.x):not(.circle):hover::after {
+    transform: rotate(-45deg);
+}
+
+.cell.x::before,
+.cell.x::after {
+    background-color: black;
+}
+
+.board.x .cell:not(.x):not(.circle):hover::before,
+.board.x .cell:not(.x):not(.circle):hover::after {
+    background-color: lightgray;
+}
+
+
+/* Tworzenie O */
+
+.cell.circle::before {
+    background-color: black;
+}
+
+.board.circle .cell:not(.x):not(.circle):hover::before {
+    background-color: lightgray;
+}
+
+.cell.circle::before,
+.cell.circle::after,
+.board.circle .cell:not(.x):not(.circle):hover::before,
+.board.circle .cell:not(.x):not(.circle):hover::after {
+    position: absolute;
+    content: '';
+    border-radius: 50%;
+}
+
+.cell.circle::before,
+.board.circle .cell:not(.x):not(.circle):hover::before {
+    width: var(--mark-size, 135px);
+    height: var(--mark-size, 135px);
+}
+
+.cell.circle::after, 
+.board.circle .cell:not(.x):not(.circle):hover::after {
+    width: calc(var(--mark-size, 135px) * .8);
+    height: calc(var(--mark-size, 135px) *.8);
+    background-color: white;
+}
+
+/* Okno wyniku */
+
+.result {
+    display: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, .9);
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 5rem;
+    flex-direction: column;
+}
+
+.result button {
+    font-size: 3rem;
+    background-color: white;
+    border: 1px solid black;
+    padding: .25em .5em;
+    margin: .25em;
+    cursor: pointer;
+}
+
+.result button:hover {
+    background-color: black;
+    color: white;
+    border-color: white;
+}
+
+.result.show {
+    display: flex;
+}
+
+
+/* Tytuł strony */
+
+.header-container {
+    position: relative;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.header-container h1 {
+    font-size: 4rem;
+    padding: .25em .5em;
+}
+
+/* Wybor trybu */
+
+.choose-mode {
+    position: relative;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.choose-mode.isHidden {
+    display: none;
+}
+
+.choose-mode button {
+    font-size: 2.5rem;
+    background-color: white;
+    border: 1px solid black;
+    padding: .25em .5em;
+    margin: 0.5em .5em;
+    cursor: pointer;
+}
+
+.choose-mode button:hover {
+    background-color: black;
+    color: white;
+    border-color: white;
+}
+
+/* Wybor poziomu trudnosci */
+
+.choose-level {
+    display: flex;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, .9);
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 5rem;
+    flex-direction: column;
+}
+
+.choose-level.isHidden {
+    display: none;
+}
+
+.choose-level button {
+    font-size: 2.5rem;
+    background-color: white;
+    border: 1px solid black;
+    padding: .25em .5em;
+    margin: 0.5em .5em;
+    cursor: pointer;
+}
+
+.choose-level button:hover {
+    background-color: black;
+    color: white;
+    border-color: white;
+}
+
+
+/* Wybor strony */
+
+.select-side {
+    display: flex;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, .9);
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 5rem;
+}
+
+.select-side.isHidden {
+    display: none;
+}
+
+.select-side button {
+    font-size: 4.5rem;
+    background-color: white;
+    border: 1px solid black;
+    padding: .25em .5em;
+    margin: 0.5em .5em;
+    cursor: pointer;
+}
+
+.select-side button:hover {
+    background-color: black;
+    color: white;
+    border-color: white;
+}
